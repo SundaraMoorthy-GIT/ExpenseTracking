@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <h1>Expense Tracker</h1>
+
+    <section class="card">
+      <h2>Add Expense</h2>
+      <form id="expense-form">
+        <div class="form-row">
+          <label>
+            Date
+            <input type="date" id="date" />
+          </label>
+          <label>
+            Category
+            <select id="category" required>
+              {% for c in categories %}
+              <option value="{{ c }}">{{ c }}</option>
+              {% endfor %}
+            </select>
+          </label>
+        </div>
+        <div class="form-row">
+          <label class="grow">
+            Description
+            <input type="text" id="description" placeholder="e.g. Groceries" />
+          </label>
+          <label>
+            Amount
+            <input type="number" id="amount" step="0.01" min="0.01" required />
+          </label>
+        </div>
+        <button type="submit">Add Expense</button>
+        <p id="form-error" class="error"></p>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Summary</h2>
+      <div class="form-row">
+        <label>
+          Filter by category
+          <select id="filter-category">
+            <option value="">All</option>
+            {% for c in categories %}
+            <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>
+          Filter by month
+          <input type="month" id="filter-month" />
+        </label>
+      </div>
+      <p class="total">Total: <span id="total-amount">$0.00</span></p>
+      <div id="category-breakdown" class="breakdown"></div>
+    </section>
+
+    <section class="card">
+      <h2>Expenses</h2>
+      <table id="expenses-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="expenses-body"></tbody>
+      </table>
+      <p id="empty-state" class="empty" hidden>No expenses yet.</p>
+    </section>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
